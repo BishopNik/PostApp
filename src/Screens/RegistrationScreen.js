@@ -1,32 +1,135 @@
 /** @format */
 
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import LogoImage from '../img/3060bf968d92368179ce26a756ce4271.jpeg';
+import { StatusBar } from 'expo-status-bar';
+import React, { useState } from 'react';
+import {
+	StyleSheet,
+	Text,
+	View,
+	ImageBackground,
+	TextInput,
+	KeyboardAvoidingView,
+	TouchableOpacity,
+	Image,
+	Alert,
+} from 'react-native';
+import { useFonts } from 'expo-font';
+import styles from '../Style';
+import LogoImage from './src/img/background.jpeg';
+import SVGComponent from './src/Icons/Add_icon.jsx';
 
-export default RegistrationScreen = () => (
-	<View style={styles.container}>
-		<Image source={LogoImage} style={{ width: 700, height: 700 }} />
-		<Text style={styles.title}>React Native</Text>
-	</View>
-);
+export default function App() {
+	const [fontsLoaded] = useFonts({
+		Roboto: require('./src/fonts/Roboto-Regular.ttf'),
+	});
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		padding: 24,
-		backgroundColor: '#eaeaea',
-	},
-	title: {
-		marginTop: 16,
-		paddingVertical: 8,
-		borderWidth: 4,
-		borderColor: '#20232a',
-		borderRadius: 6,
-		backgroundColor: '#61dafb',
-		color: '#20232a',
-		textAlign: 'center',
-		fontSize: 30,
-		fontWeight: 'bold',
-	},
-});
+	const [login, setLogin] = useState('');
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [showPassword, setShowPassword] = useState(false);
+	const [isFocusedLogin, setIsFocusedLogin] = useState(false);
+	const [isFocusedEmail, setIsFocusedEmail] = useState(false);
+	const [isFocusedPassword, setIsFocusedPassword] = useState(false);
+
+	const handleFocus = id => {
+		switch (id) {
+			case 'login':
+				setIsFocusedLogin(true);
+				setIsFocusedEmail(false);
+				setIsFocusedPassword(false);
+				break;
+
+			case 'email':
+				setIsFocusedLogin(false);
+				setIsFocusedEmail(true);
+				setIsFocusedPassword(false);
+				break;
+
+			case 'password':
+				setIsFocusedLogin(false);
+				setIsFocusedEmail(false);
+				setIsFocusedPassword(true);
+				break;
+
+			default:
+				break;
+		}
+	};
+
+	const onLogin = () => {
+		Alert.alert('Credentials', `${email} + ${password}`);
+	};
+
+	const toggleShowPassword = () => {
+		setShowPassword(!showPassword);
+	};
+
+	if (!fontsLoaded) {
+		return null;
+	}
+
+	return (
+		<View style={styles.container}>
+			<ImageBackground source={LogoImage} style={styles.image}>
+				<KeyboardAvoidingView
+					behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+					style={styles.formReg}
+				>
+					<View style={styles.avatarContainer}>
+						<View style={styles.addAvatar}>
+							<SVGComponent />
+						</View>
+					</View>
+
+					<Text style={styles.title}>Create an Account</Text>
+					<View style={styles.inputBox}>
+						<TextInput
+							value={login}
+							onChangeText={setLogin}
+							placeholder='Login'
+							style={[styles.input, isFocusedLogin && styles.focusedInput]}
+							onFocus={() => handleFocus('login')}
+						/>
+						<TextInput
+							value={email}
+							onChangeText={setEmail}
+							placeholder='Email'
+							style={[styles.input, isFocusedEmail && styles.focusedInput]}
+							onFocus={() => handleFocus('email')}
+						/>
+						<View style={styles.inputPassContainer}>
+							<TextInput
+								value={password}
+								onChangeText={setPassword}
+								placeholder='Password'
+								secureTextEntry={!showPassword}
+								style={[styles.input, isFocusedPassword && styles.focusedInput]}
+								onFocus={() => handleFocus('password')}
+							/>
+							<TouchableOpacity
+								onPress={toggleShowPassword}
+								style={styles.showPasswordButton}
+							>
+								<Text style={styles.showPasswordText}>
+									{showPassword ? 'Hide' : 'Show'}{' '}
+								</Text>
+							</TouchableOpacity>
+						</View>
+					</View>
+					<View style={styles.buttonBox}>
+						<TouchableOpacity style={styles.button} onPress={onLogin}>
+							<Text style={styles.buttonText}>Sign Up</Text>
+						</TouchableOpacity>
+						<TouchableOpacity style={styles.singupLink} onPress={onLogin}>
+							<Text style={styles.signup}>
+								Do have you an account?{' '}
+								<Text style={{ textDecorationLine: 'underline' }}>Sign In</Text>
+							</Text>
+						</TouchableOpacity>
+					</View>
+				</KeyboardAvoidingView>
+			</ImageBackground>
+			<StatusBar style='auto' />
+		</View>
+	);
+}
