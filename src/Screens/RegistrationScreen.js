@@ -57,7 +57,7 @@ function LoginScreen({ navigation }) {
 	};
 
 	const onLogin = () => {
-		Alert.alert('Credentials', `${email} + ${password}`);
+		Alert.alert('Credentials', `${login} + ${email} + ${password}`);
 	};
 
 	const toggleShowPassword = () => {
