@@ -3,7 +3,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import {
-	StyleSheet,
 	Text,
 	View,
 	ImageBackground,
@@ -15,12 +14,12 @@ import {
 } from 'react-native';
 import { useFonts } from 'expo-font';
 import styles from '../Style';
-import LogoImage from './src/img/background.jpeg';
-import SVGComponent from './src/Icons/Add_icon.jsx';
+import LogoImage from '../img/background.jpeg';
+import { AddIcon, ClearIcon } from '../Icons';
 
-export default function App() {
+function LoginScreen({ navigation }) {
 	const [fontsLoaded] = useFonts({
-		Roboto: require('./src/fonts/Roboto-Regular.ttf'),
+		Roboto: require('../Fonts/Roboto-Regular.ttf'),
 	});
 
 	const [login, setLogin] = useState('');
@@ -77,7 +76,7 @@ export default function App() {
 				>
 					<View style={styles.avatarContainer}>
 						<View style={styles.addAvatar}>
-							<SVGComponent />
+							<AddIcon />
 						</View>
 					</View>
 
@@ -120,7 +119,10 @@ export default function App() {
 						<TouchableOpacity style={styles.button} onPress={onLogin}>
 							<Text style={styles.buttonText}>Sign Up</Text>
 						</TouchableOpacity>
-						<TouchableOpacity style={styles.singupLink} onPress={onLogin}>
+						<TouchableOpacity
+							style={styles.singupLink}
+							onPress={() => navigation.navigate('Login')}
+						>
 							<Text style={styles.signup}>
 								Do have you an account?{' '}
 								<Text style={{ textDecorationLine: 'underline' }}>Sign In</Text>
@@ -133,3 +135,5 @@ export default function App() {
 		</View>
 	);
 }
+
+export default LoginScreen;

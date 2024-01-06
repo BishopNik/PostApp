@@ -12,13 +12,12 @@ import {
 	Alert,
 } from 'react-native';
 import { useFonts } from 'expo-font';
-
 import styles from '../Style';
-import LogoImage from './src/img/background.jpeg';
+import LogoImage from '../img/background.jpeg';
 
-export default function App() {
+function RegistrationScreen({ navigation }) {
 	const [fontsLoaded] = useFonts({
-		Roboto: require('./src/fonts/Roboto-Regular.ttf'),
+		Roboto: require('../Fonts/Roboto-Regular.ttf'),
 	});
 
 	const [email, setEmail] = useState('');
@@ -30,13 +29,11 @@ export default function App() {
 	const handleFocus = id => {
 		switch (id) {
 			case 'email':
-				setIsFocusedLogin(false);
 				setIsFocusedEmail(true);
 				setIsFocusedPassword(false);
 				break;
 
 			case 'password':
-				setIsFocusedLogin(false);
 				setIsFocusedEmail(false);
 				setIsFocusedPassword(true);
 				break;
@@ -97,7 +94,10 @@ export default function App() {
 						<TouchableOpacity style={styles.button} onPress={onLogin}>
 							<Text style={styles.buttonText}>Login</Text>
 						</TouchableOpacity>
-						<TouchableOpacity style={styles.singupLink} onPress={onLogin}>
+						<TouchableOpacity
+							style={styles.singupLink}
+							onPress={() => navigation.navigate('Registration')}
+						>
 							<Text style={styles.signup}>
 								Don't have an account?{' '}
 								<Text style={{ textDecorationLine: 'underline' }}>Sign Up</Text>
@@ -110,3 +110,5 @@ export default function App() {
 		</View>
 	);
 }
+
+export default RegistrationScreen;

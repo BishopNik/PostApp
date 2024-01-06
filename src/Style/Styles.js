@@ -14,6 +14,11 @@ const styles = StyleSheet.create({
 	container: {
 		backgroundColor: 'rgba(208, 211, 217, 0.90)',
 	},
+	rootContainer: {
+		width: '100%',
+		height: '100%',
+		backgroundColor: '#fff',
+	},
 	image: {
 		width: '100%',
 		height: '100%',
@@ -126,6 +131,51 @@ const styles = StyleSheet.create({
 		...commonTextStyle,
 		color: '#1B4371',
 		textAlign: 'center',
+	},
+	mainTitle: {
+		position: 'relative',
+		paddingTop: 11,
+		paddingBottom: 11,
+		borderBottomColor: '#BDBDBD',
+		borderBottomWidth: 1,
+	},
+	mainText: {
+		...commonTextStyle,
+		color: '#212121',
+		textAlign: 'center',
+		fontSize: 18,
+		fontWeight: 500,
+		lineHeight: 22,
+		letterSpacing: -0.408,
+	},
+	quitButton: {
+		position: 'absolute',
+		right: 16,
+		top: 11,
+	},
+	postContainer: {
+		paddingTop: 32,
+		paddingBottom: 32,
+		paddingLeft: 16,
+		paddingRight: 16,
+	},
+	post: {
+		...commonTextStyle,
+		color: '#212121',
+		fontSize: 13,
+		fontWeight: 700,
+		textAlign: 'left',
+	},
+	controll: {
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
+		gap: 39,
+		paddingBottom: 9,
+		paddingTop: 9,
+		borderTopColor: '#BDBDBD',
+		borderTopWidth: 1,
 	},
 });
 
