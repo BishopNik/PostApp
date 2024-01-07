@@ -3,7 +3,7 @@
 import React from 'react';
 import { Svg, Path } from 'react-native-svg';
 
-const BackIcon = ({ width, height, color }) => {
+const BackIcon = ({ width = 24, height = 24, color = '#212121' }) => {
 	return (
 		<Svg width={width} height={height} viewBox='0 0 24 24' fill='none'>
 			<Path

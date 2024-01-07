@@ -7,3 +7,6 @@ export { default as LogoutIcon } from './Logout_icon';
 export { default as ClearIcon } from './Clear_icon';
 export { default as AddIcon } from './Add_icon';
 export { default as BackIcon } from './Back_icon';
+export { default as CameraIcon } from './Camera_icon';
+export { default as DeleteIcon } from './Delete_icon';
+export { default as LocationIcon } from './Location_icon';
