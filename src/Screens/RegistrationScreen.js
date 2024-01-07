@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import { useFonts } from 'expo-font';
 import styles from '../Style';
-import LogoImage from '../img/background.jpeg';
+import LogoImage from '../img/background.jpg';
 import { AddIcon, ClearIcon } from '../Icons';
 
 function LoginScreen({ navigation }) {

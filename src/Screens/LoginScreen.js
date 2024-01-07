@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 import { useFonts } from 'expo-font';
 import styles from '../Style';
-import LogoImage from '../img/background.jpeg';
+import LogoImage from '../img/background.jpg';
 
 function RegistrationScreen() {
 	const navigation = useNavigation();
