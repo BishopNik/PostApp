@@ -1,7 +1,7 @@
 /** @format */
 
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 	Text,
 	View,
@@ -22,6 +22,12 @@ function LoginScreen({ navigation }) {
 	const [fontsLoaded] = useFonts({
 		Roboto: require('../Fonts/Roboto-Regular.ttf'),
 	});
+
+	useEffect(() => {
+		navigation.setOptions({
+			headerShown: false, // Hide the header
+		});
+	}, [navigation]);
 
 	const [login, setLogin] = useState('');
 	const [email, setEmail] = useState('');
@@ -54,10 +60,6 @@ function LoginScreen({ navigation }) {
 			default:
 				break;
 		}
-	};
-
-	const onLogin = () => {
-		Alert.alert('Credentials', `${login} + ${email} + ${password}`);
 	};
 
 	const toggleShowPassword = () => {
@@ -118,7 +120,10 @@ function LoginScreen({ navigation }) {
 							</View>
 						</View>
 						<View style={styles.buttonBox}>
-							<TouchableOpacity style={styles.button} onPress={onLogin}>
+							<TouchableOpacity
+								style={styles.button}
+								onPress={() => navigation.navigate('Home')}
+							>
 								<Text style={styles.buttonText}>Sign Up</Text>
 							</TouchableOpacity>
 							<TouchableOpacity

@@ -1,7 +1,8 @@
 /** @format */
 
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import {
 	Text,
 	View,
@@ -17,10 +18,17 @@ import { useFonts } from 'expo-font';
 import styles from '../Style';
 import LogoImage from '../img/background.jpeg';
 
-function RegistrationScreen({ navigation }) {
+function RegistrationScreen() {
+	const navigation = useNavigation();
 	const [fontsLoaded] = useFonts({
 		Roboto: require('../Fonts/Roboto-Regular.ttf'),
 	});
+
+	useEffect(() => {
+		navigation.setOptions({
+			headerShown: false,
+		});
+	}, [navigation]);
 
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -43,10 +51,6 @@ function RegistrationScreen({ navigation }) {
 			default:
 				break;
 		}
-	};
-
-	const onLogin = () => {
-		Alert.alert('Credentials', `${email} + ${password}`);
 	};
 
 	const toggleShowPassword = () => {
@@ -94,12 +98,15 @@ function RegistrationScreen({ navigation }) {
 							</View>
 						</View>
 						<View style={styles.buttonBox}>
-							<TouchableOpacity style={styles.button} onPress={onLogin}>
+							<TouchableOpacity
+								style={styles.button}
+								onPress={() => navigation.navigate('Home')}
+							>
 								<Text style={styles.buttonText}>Login</Text>
 							</TouchableOpacity>
 							<TouchableOpacity
 								style={styles.singupLink}
-								onPress={() => navigation.navigate('Registration')}
+								onPress={() => navigation.navigate('Registration', { user: null })}
 							>
 								<Text style={styles.signup}>
 									Don't have an account?{' '}

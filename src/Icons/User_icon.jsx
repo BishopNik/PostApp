@@ -1,29 +1,30 @@
 /** @format */
 
 import React from 'react';
-import Svg, { G, Path } from 'react-native-svg';
+import Svg, { G, Rect, Path } from 'react-native-svg';
 
-const UserIcon = ({ width = 24, height = 24, color = '#212121' }) => {
+const UserIcon = ({ width = 70, height = 40, color = '#212121' }) => {
 	return (
-		<Svg width={width} height={height} viewBox='0 0 24 24' fill='none'>
-			<G id='feather-icon / user'>
-				<Path
-					id='Shape'
-					d='M20 21V19C20 16.7909 18.2091 15 16 15H8C5.79086 15 4 16.7909 4 19V21'
-					stroke={color}
-					strokeOpacity='0.8'
-					strokeLinecap='round'
-					strokeLinejoin='round'
+		<Svg width={width} height={height} viewBox='0 0 70 40' fill='none'>
+			<G class='layer'>
+				<Rect
+					fill={color}
+					height={height}
+					id='Rectangle'
+					rx={height / 2}
+					width={width}
+					x='-0.1'
+					y='0.13'
 				/>
 				<Path
+					d='m42.47,27.75l0,-2c0,-2.21 -1.79,-4 -4,-4l-8,0c-2.21,0 -4,1.79 -4,4l0,2'
+					id='Shape'
+					stroke={color === '#fff' ? '#000' : '#fff'}
+				/>
+				<Path
+					d='m34.47,17.75c2.21,0 4,-1.79 4,-4c0,-2.21 -1.79,-4 -4,-4c-2.21,0 -4,1.79 -4,4c0,2.21 1.79,4 4,4z'
 					id='Oval'
-					fillRule='evenodd'
-					clipRule='evenodd'
-					d='M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z'
-					stroke={color}
-					strokeOpacity='0.8'
-					strokeLinecap='round'
-					strokeLinejoin='round'
+					stroke={color === '#fff' ? '#000' : '#fff'}
 				/>
 			</G>
 		</Svg>

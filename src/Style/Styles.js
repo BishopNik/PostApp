@@ -166,17 +166,6 @@ const styles = StyleSheet.create({
 		fontWeight: 700,
 		textAlign: 'left',
 	},
-	controll: {
-		display: 'flex',
-		flexDirection: 'row',
-		justifyContent: 'center',
-		alignItems: 'center',
-		gap: 39,
-		paddingBottom: 9,
-		paddingTop: 9,
-		borderTopColor: '#BDBDBD',
-		borderTopWidth: 1,
-	},
 });
 
 export default styles;
