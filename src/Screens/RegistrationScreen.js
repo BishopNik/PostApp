@@ -1,7 +1,7 @@
 /** @format */
 
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
 	Text,
 	View,
@@ -22,12 +22,6 @@ function LoginScreen({ navigation }) {
 	const [fontsLoaded] = useFonts({
 		Roboto: require('../Fonts/Roboto-Regular.ttf'),
 	});
-
-	useEffect(() => {
-		navigation.setOptions({
-			headerShown: false, // Hide the header
-		});
-	}, [navigation]);
 
 	const [login, setLogin] = useState('');
 	const [email, setEmail] = useState('');

@@ -1,7 +1,7 @@
 /** @format */
 
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import {
 	Text,
@@ -23,12 +23,6 @@ function RegistrationScreen() {
 	const [fontsLoaded] = useFonts({
 		Roboto: require('../Fonts/Roboto-Regular.ttf'),
 	});
-
-	useEffect(() => {
-		navigation.setOptions({
-			headerShown: false,
-		});
-	}, [navigation]);
 
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
