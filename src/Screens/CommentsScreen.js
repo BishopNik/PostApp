@@ -5,7 +5,7 @@ import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Text, View, SafeAreaView, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { useFonts } from 'expo-font';
-import styles from '../Style';
+import { styles } from '../Style';
 
 export default function CommentsScreen() {
 	const navigation = useNavigation();

@@ -153,6 +153,11 @@ const styles = StyleSheet.create({
 		right: 16,
 		top: 11,
 	},
+	backButton: {
+		position: 'absolute',
+		left: 16,
+		top: 11,
+	},
 	postContainer: {
 		paddingTop: 32,
 		paddingBottom: 32,
@@ -165,6 +170,28 @@ const styles = StyleSheet.create({
 		fontSize: 13,
 		fontWeight: 700,
 		textAlign: 'left',
+	},
+	avatarImg: {
+		width: 60,
+		height: 60,
+	},
+	userContainer: {
+		display: 'flex',
+		flexDirection: 'row',
+		columnGap: 8,
+		alignItems: 'center',
+		marginBottom: 10,
+	},
+	user: {},
+	userName: {
+		color: '#212121',
+		fontSize: 13,
+		fontWeight: '700',
+	},
+	userEmail: {
+		...commonTextStyle,
+		color: 'rgba(33, 33, 33, 0.80)',
+		fontSize: 11,
 	},
 });
 

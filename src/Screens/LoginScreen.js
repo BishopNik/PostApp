@@ -15,7 +15,7 @@ import {
 	Alert,
 } from 'react-native';
 import { useFonts } from 'expo-font';
-import styles from '../Style';
+import { styles } from '../Style';
 import LogoImage from '../img/background.jpg';
 
 function RegistrationScreen() {

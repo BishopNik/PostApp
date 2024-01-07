@@ -1,3 +1,4 @@
 /** @format */
 
-export { default } from './Styles';
+export { default as styles } from './Styles';
+export { default as options } from './BottonNav';
