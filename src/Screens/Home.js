@@ -3,6 +3,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { GridIcon, NewIcon, UserIcon } from '../Icons';
 import CreatePost from './CreatePostsScreen';
@@ -22,18 +23,23 @@ export default function Home() {
 	}
 
 	return (
-		<>
-			<Tabs.Navigator screenOptions={{ ...options }}>
+		<NavigationContainer independent={true}>
+			<Tabs.Navigator
+				screenOptions={({ route }) => ({
+					...options(route),
+				})}
+			>
 				<Tabs.Screen
 					name='Posts'
 					component={PostsScreen}
-					options={{
+					options={({ route }) => ({
 						tabBarIcon: ({ color, size, focused }) => (
 							<GridIcon color={focused ? '#FF6C00' : '#fff'} />
 						),
 						headerShown: false,
-					}}
+					})}
 				/>
+
 				<Tabs.Screen
 					name='Create'
 					component={CreatePost}
@@ -42,6 +48,7 @@ export default function Home() {
 							<NewIcon color={focused ? '#FF6C00' : '#fef2e4'} />
 						),
 						headerShown: false,
+						tabBarVisible: false,
 					}}
 				/>
 				<Tabs.Screen
@@ -56,6 +63,6 @@ export default function Home() {
 				/>
 			</Tabs.Navigator>
 			<StatusBar style='auto' />
-		</>
+		</NavigationContainer>
 	);
 }

@@ -8,6 +8,7 @@ import LoginScreen from '../Screens/LoginScreen';
 import RegistrationScreen from '../Screens/RegistrationScreen';
 import CommentsScreen from '../Screens/CommentsScreen';
 import Home from '../Screens/Home';
+import CreatePost from '../Screens/CreatePostsScreen';
 
 const Stack = createStackNavigator();
 
@@ -25,12 +26,17 @@ const Navigation = () => {
 					component={RegistrationScreen}
 					options={{ headerShown: false }}
 				/>
-				<Stack.Screen name='Home' component={Home} options={{ headerShown: false }} />
 				<Stack.Screen
 					name='Comments'
 					component={CommentsScreen}
 					options={{ headerShown: false }}
 				/>
+				<Stack.Screen
+					name='Create'
+					component={CreatePost}
+					options={{ tabBarVisible: false }}
+				/>
+				<Stack.Screen name='Home' component={Home} options={{ headerShown: false }} />
 			</Stack.Navigator>
 		</NavigationContainer>
 	);

@@ -140,9 +140,8 @@ const styles = StyleSheet.create({
 		paddingBottom: 132,
 	},
 	buttonPostContainer: {
-		display: 'flex',
+		flex: 1,
 		flexDirection: 'column',
-		height: 250,
 		justifyContent: 'space-between',
 	},
 	inputPostContainer: {
@@ -215,6 +214,7 @@ const styles = StyleSheet.create({
 		top: 11,
 	},
 	postContainer: {
+		flex: 1,
 		paddingTop: 32,
 		paddingBottom: 32,
 		paddingLeft: 16,

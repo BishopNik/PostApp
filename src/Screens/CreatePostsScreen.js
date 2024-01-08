@@ -56,7 +56,7 @@ export default function CreatePost() {
 			</View>
 			<View style={styles.postContainer}>
 				<View style={styles.photoContainer}>
-					<TouchableOpacity onPress={() => navigation.navigate('Map')}>
+					<TouchableOpacity onPress={() => navigation.navigate('Comments')}>
 						<View style={styles.camera}>
 							<CameraIcon />
 						</View>
