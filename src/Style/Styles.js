@@ -1,6 +1,6 @@
 /** @format */
 
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 const commonTextStyle = {
 	fontFamily: 'Roboto',
@@ -417,6 +417,16 @@ const styles = StyleSheet.create({
 		color: '#212121',
 		fontSize: 13,
 		lineHeight: 18,
+	},
+	container: {
+		flex: 1,
+		backgroundColor: '#fff',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	mapStyle: {
+		width: Dimensions.get('window').width,
+		height: Dimensions.get('window').height,
 	},
 });
 
