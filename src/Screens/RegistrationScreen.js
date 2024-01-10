@@ -73,9 +73,9 @@ function LoginScreen({ navigation }) {
 						style={styles.formReg}
 					>
 						<View style={styles.avatarContainer}>
-							<View style={styles.addAvatar}>
+							<TouchableOpacity style={styles.addAvatar}>
 								<AddIcon />
-							</View>
+							</TouchableOpacity>
 						</View>
 
 						<Text style={styles.title}>Create an Account</Text>

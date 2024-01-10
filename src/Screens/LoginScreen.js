@@ -12,7 +12,6 @@ import {
 	KeyboardAvoidingView,
 	TouchableOpacity,
 	TouchableWithoutFeedback,
-	Alert,
 } from 'react-native';
 import { useFonts } from 'expo-font';
 import { styles } from '../Style';

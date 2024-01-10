@@ -56,7 +56,7 @@ export default function CreatePost() {
 			</View>
 			<View style={styles.postContainer}>
 				<View style={styles.photoContainer}>
-					<TouchableOpacity onPress={() => navigation.navigate('Comments')}>
+					<TouchableOpacity>
 						<View style={styles.camera}>
 							<CameraIcon />
 						</View>
@@ -77,7 +77,9 @@ export default function CreatePost() {
 							isFocusedLocation && { borderBottomColor: '#FF6C00' },
 						]}
 					>
-						<LocationIcon />
+						<TouchableOpacity onPress={() => navigation.navigate('Map')}>
+							<LocationIcon />
+						</TouchableOpacity>
 						<TextInput
 							value={location}
 							onChangeText={setLocation}

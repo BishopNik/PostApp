@@ -9,6 +9,7 @@ import RegistrationScreen from '../Screens/RegistrationScreen';
 import CommentsScreen from '../Screens/CommentsScreen';
 import Home from '../Screens/Home';
 import CreatePost from '../Screens/CreatePostsScreen';
+import MapScreen from '../Screens/MapScreen';
 
 const Stack = createStackNavigator();
 
@@ -31,10 +32,16 @@ const Navigation = () => {
 					component={CommentsScreen}
 					options={{ headerShown: false }}
 				/>
+				<Stack.Screen name='Create' component={CreatePost} />
 				<Stack.Screen
-					name='Create'
-					component={CreatePost}
-					options={{ tabBarVisible: false }}
+					name='Map'
+					component={MapScreen}
+					options={{
+						headerStyle: {
+							borderBottomColor: '#BDBDBD',
+							borderBottomWidth: 1,
+						},
+					}}
 				/>
 				<Stack.Screen name='Home' component={Home} options={{ headerShown: false }} />
 			</Stack.Navigator>
