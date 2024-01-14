@@ -11,18 +11,12 @@ import {
 	KeyboardAvoidingView,
 	TouchableOpacity,
 	TouchableWithoutFeedback,
-	Alert,
 } from 'react-native';
-import { useFonts } from 'expo-font';
 import { styles } from '../Style';
 import LogoImage from '../img/background.jpg';
 import { AddIcon, ClearIcon } from '../Icons';
 
 function LoginScreen({ navigation }) {
-	const [fontsLoaded] = useFonts({
-		Roboto: require('../Fonts/Roboto-Regular.ttf'),
-	});
-
 	const [login, setLogin] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -59,10 +53,6 @@ function LoginScreen({ navigation }) {
 	const toggleShowPassword = () => {
 		setShowPassword(!showPassword);
 	};
-
-	if (!fontsLoaded) {
-		return null;
-	}
 
 	return (
 		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>

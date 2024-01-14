@@ -3,17 +3,9 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import {
-	Text,
-	View,
-	SafeAreaView,
-	ScrollView,
-	TouchableOpacity,
-	Image,
-	TextInput,
-} from 'react-native';
+import { Text, View, ScrollView, TouchableOpacity, Image, TextInput } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { BackIcon, SendCommentIcon } from '../Icons';
-import { useFonts } from 'expo-font';
 import { styles } from '../Style';
 import user1 from '../img/user1.jpg';
 import user2 from '../img/user2.jpg';
@@ -23,14 +15,6 @@ export default function CommentsScreen({ route }) {
 	const navigation = useNavigation();
 
 	const [comment, setComment] = useState('');
-
-	const [fontsLoaded] = useFonts({
-		Roboto: require('../Fonts/Roboto-Black.ttf'),
-	});
-
-	if (!fontsLoaded) {
-		return null;
-	}
 
 	return (
 		<SafeAreaView style={styles.rootContainer}>

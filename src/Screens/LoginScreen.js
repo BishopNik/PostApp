@@ -13,15 +13,11 @@ import {
 	TouchableOpacity,
 	TouchableWithoutFeedback,
 } from 'react-native';
-import { useFonts } from 'expo-font';
 import { styles } from '../Style';
 import LogoImage from '../img/background.jpg';
 
 function RegistrationScreen() {
 	const navigation = useNavigation();
-	const [fontsLoaded] = useFonts({
-		Roboto: require('../Fonts/Roboto-Regular.ttf'),
-	});
 
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -49,10 +45,6 @@ function RegistrationScreen() {
 	const toggleShowPassword = () => {
 		setShowPassword(!showPassword);
 	};
-
-	if (!fontsLoaded) {
-		return null;
-	}
 
 	return (
 		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>

@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
 	},
 	inputPostLocation: {
 		...commonTextStyle,
+		width: '100%',
 		paddingLeft: 4,
 		paddingRight: 16,
 	},
@@ -134,7 +135,7 @@ const styles = StyleSheet.create({
 	},
 	inputComment: {
 		...commonTextStyle,
-		fontWeight: 500,
+		fontWeight: '500',
 		width: '100%',
 		height: 50,
 		backgroundColor: '#F6F6F6',
@@ -155,6 +156,7 @@ const styles = StyleSheet.create({
 		borderColor: '#FF6C00',
 	},
 	focusedInputPost: {
+		width: '100%',
 		borderBottomColor: '#FF6C00',
 	},
 	showPasswordButton: {
@@ -231,7 +233,7 @@ const styles = StyleSheet.create({
 		...commonTextStyle,
 		textAlign: 'center',
 		fontSize: 18,
-		fontWeight: 500,
+		fontWeight: '500',
 		lineHeight: 22,
 		letterSpacing: -0.408,
 	},
@@ -263,7 +265,7 @@ const styles = StyleSheet.create({
 	post: {
 		...commonTextStyle,
 		fontSize: 13,
-		fontWeight: 700,
+		fontWeight: '700',
 		textAlign: 'left',
 	},
 	photoUpload: {
@@ -298,8 +300,8 @@ const styles = StyleSheet.create({
 	},
 	photoContainer: {
 		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'center',
+		justifyContent: 'flex-start',
+		alignItems: 'flex-end',
 		width: '100%',
 		minHeight: 240,
 		borderRadius: 8,
@@ -308,15 +310,18 @@ const styles = StyleSheet.create({
 		backgroundColor: '#F6F6F6',
 		marginLeft: 'auto',
 		marginRight: 'auto',
-		marginBottom: 32,
+		marginBottom: 8,
 	},
 	camera: {
+		position: 'absolute',
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
 		padding: 18,
 		backgroundColor: '#fff',
 		borderRadius: 50,
+		zIndex: 999,
+		opacity: 0.1,
 	},
 	nameUser: {
 		...commonTextStyle,
@@ -334,11 +339,14 @@ const styles = StyleSheet.create({
 	},
 	img: {
 		width: '100%',
+		minHeight: 240,
+		maxHeight: 260,
 		borderRadius: 8,
+		resizeMode: 'cover',
 	},
 	postPhotoTitle: {
 		...commonTextStyle,
-		fontWeight: 500,
+		fontWeight: '500',
 	},
 	postDetail: {
 		display: 'flex',
@@ -367,18 +375,23 @@ const styles = StyleSheet.create({
 	postDetailText: {
 		...commonTextStyle,
 	},
+	linkText: {
+		maxWidth: 250,
+	},
 	mapTitle: {
 		...commonTextStyle,
 		padding: 15,
 		fontSize: 18,
-		fontWeight: 500,
+		fontWeight: '500',
+		lineHeight: 24,
 	},
 	mapContainer: {
 		width: '100%',
-		minHeight: 240,
-		maxHeight: 300,
+		minHeight: 440,
+		maxHeight: 550,
 		borderColor: '#212121',
 		borderWidth: 1,
+		marginBottom: 30,
 	},
 	country: {
 		color: 'darkblue',
@@ -418,15 +431,54 @@ const styles = StyleSheet.create({
 		fontSize: 13,
 		lineHeight: 18,
 	},
-	container: {
-		flex: 1,
-		backgroundColor: '#fff',
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
 	mapStyle: {
-		width: Dimensions.get('window').width,
-		height: Dimensions.get('window').height,
+		width: '100%',
+		height: '100%',
+		borderRadius: 8,
+	},
+	cameraBox: {
+		width: '100%',
+		height: '100%',
+		borderWidth: 1,
+		borderColor: '#212121',
+		borderRadius: 10,
+		overflow: 'hidden',
+	},
+	photoView: {
+		alignSelf: 'left',
+		flex: 1,
+		backgroundColor: 'transparent',
+		justifyContent: 'flex-start',
+	},
+	photoTake: {
+		flex: 1,
+		justifyContent: 'flex-end',
+		padding: 10,
+	},
+	flipContainer: {
+		flex: 0.1,
+		alignSelf: 'flex-end',
+	},
+	buttonCamera: {
+		alignSelf: 'center',
+	},
+	takePhotoOut: {
+		borderWidth: 2,
+		borderColor: 'white',
+		height: 50,
+		width: 50,
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+		borderRadius: 50,
+	},
+	takePhotoInner: {
+		borderWidth: 2,
+		borderColor: 'white',
+		height: 40,
+		width: 40,
+		backgroundColor: 'white',
+		borderRadius: 50,
 	},
 });
 

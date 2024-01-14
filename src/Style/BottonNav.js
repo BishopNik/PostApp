@@ -15,6 +15,7 @@ const options = route => {
 			paddingRight: 82,
 			borderTopColor: '#BDBDBD',
 			borderTopWidth: 1,
+			height: 80,
 		},
 		tabBarItemStyle: {},
 	};

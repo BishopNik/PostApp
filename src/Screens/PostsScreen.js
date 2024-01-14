@@ -1,25 +1,39 @@
 /** @format */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { Text, View, SafeAreaView, ScrollView, TouchableOpacity, Image } from 'react-native';
-import { useFonts } from 'expo-font';
+import { Text, View, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from '../Style';
-import { CommentEmptyIcon, LogoutIcon, LocationIcon } from '../Icons';
+import { LogoutIcon } from '../Icons';
+import PostsList, { useAppContext } from '../Components';
 import Avatar from '../img/Avatar.jpg';
-import Img1 from '../img/Img1.jpg';
-import Img2 from '../img/Img2.jpg';
-import Img3 from '../img/Img3.jpg';
+import { viewComments, viewLocation } from '../Utils/helpersFunc';
+import { eventEmitter } from '../Utils/events';
 
-export default function PostsScreen() {
+function PostsScreen() {
 	const navigation = useNavigation();
-	const [fontsLoaded] = useFonts({
-		Roboto: require('../Fonts/Roboto-Black.ttf'),
-	});
+	const { posts, setPosts } = useAppContext();
 
-	if (!fontsLoaded) {
-		return null;
-	}
+	useEffect(() => {
+		const subscription = eventEmitter.addListener('newPost', data => createPost(data));
+
+		return () => subscription.remove();
+	}, []);
+
+	const createPost = ({ photo, name, location }) => {
+		const newPost = {
+			id: `${Date.now()}_${Math.round(Math.random() * 1e9)}`,
+			photo: photo,
+			title: name,
+			comment: 0,
+			like: 0,
+			location: location.city + ', ' + location.country,
+			locationLatitude: location.latitude,
+			locationLongitude: location.longitude,
+		};
+		setPosts(posts => [...posts, newPost]);
+	};
 
 	return (
 		<SafeAreaView style={styles.rootContainer}>
@@ -43,109 +57,17 @@ export default function PostsScreen() {
 						<Text style={styles.userEmail}>email@example.com</Text>
 					</View>
 				</View>
-				<View style={styles.postList}>
-					<View style={{ gap: 8 }}>
-						<View style={styles.photoContainer}>
-							<Image source={Img1} style={styles.img} />
-						</View>
-						<Text style={styles.postPhotoTitle}>Forest</Text>
-						<View style={styles.postDetail}>
-							<TouchableOpacity
-								onPress={() => navigation.navigate('Comments', { img: Img1 })}
-								style={styles.postDetailItem}
-							>
-								<CommentEmptyIcon />
-								<Text style={styles.linkText}>8</Text>
-							</TouchableOpacity>
-							<View style={styles.postDetailLocation}>
-								<LocationIcon />
-								<TouchableOpacity
-									onPress={() =>
-										navigation.navigate('Map', {
-											country: "Ivano-Frankivs'k Region, Ukraine",
-										})
-									}
-								>
-									<Text
-										style={[
-											styles.linkText,
-											{ textDecorationLine: 'underline' },
-										]}
-									>
-										Ivano-Frankivs'k Region, Ukraine
-									</Text>
-								</TouchableOpacity>
-							</View>
-						</View>
-					</View>
-					<View style={{ gap: 8 }}>
-						<View style={styles.photoContainer}>
-							<Image source={Img2} style={styles.img} />
-						</View>
-						<Text style={styles.postPhotoTitle}>Sunset on the Black Sea</Text>
-						<View style={styles.postDetail}>
-							<TouchableOpacity
-								onPress={() => navigation.navigate('Comments', { img: Img2 })}
-								style={styles.postDetailItem}
-							>
-								<CommentEmptyIcon />
-								<Text style={styles.linkText}>3</Text>
-							</TouchableOpacity>
-							<View style={styles.postDetailLocation}>
-								<LocationIcon />
-								<TouchableOpacity
-									onPress={() =>
-										navigation.navigate('Map', {
-											country: 'Odesa Region, Ukraine',
-										})
-									}
-								>
-									<Text
-										style={[
-											styles.linkText,
-											{ textDecorationLine: 'underline' },
-										]}
-									>
-										Odesa Region, Ukraine
-									</Text>
-								</TouchableOpacity>
-							</View>
-						</View>
-					</View>
-					<View style={{ gap: 8 }}>
-						<View style={styles.photoContainer}>
-							<Image source={Img3} style={styles.img} />
-						</View>
-						<Text style={styles.postPhotoTitle}>An old house in Venice</Text>
-						<View style={styles.postDetail}>
-							<TouchableOpacity
-								onPress={() => navigation.navigate('Comments', { img: Img3 })}
-								style={styles.postDetailItem}
-							>
-								<CommentEmptyIcon />
-								<Text style={styles.linkText}>50</Text>
-							</TouchableOpacity>
-							<View style={styles.postDetailLocation}>
-								<LocationIcon />
-								<TouchableOpacity
-									onPress={() =>
-										navigation.navigate('Map', { country: 'Venice, Italy' })
-									}
-								>
-									<Text
-										style={[
-											styles.linkText,
-											{ textDecorationLine: 'underline' },
-										]}
-									>
-										Venice, Italy
-									</Text>
-								</TouchableOpacity>
-							</View>
-						</View>
-					</View>
-				</View>
+				{posts && (
+					<PostsList
+						posts={posts}
+						onComment={viewComments}
+						onLocation={viewLocation}
+						navigation={navigation}
+					/>
+				)}
 			</ScrollView>
 		</SafeAreaView>
 	);
 }
+
+export default PostsScreen;
