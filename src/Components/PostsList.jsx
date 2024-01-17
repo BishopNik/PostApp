@@ -9,11 +9,19 @@ function PostsList({ posts, onComment, onLocation, page, navigation }) {
 	return (
 		<View style={styles.postList}>
 			{posts.map(
-				({ id, photo, title, comment, location, locationLatitude, locationLongitude }) => (
+				({
+					id,
+					photoURL,
+					title,
+					comment,
+					location,
+					locationLatitude,
+					locationLongitude,
+				}) => (
 					<View key={id} style={{ gap: 8 }}>
 						<View style={styles.photoContainer}>
 							<Image
-								source={typeof photo === 'string' ? { uri: photo } : photo}
+								source={typeof photoURL === 'string' ? { uri: photoURL } : photoURL}
 								style={styles.img}
 								resizeMode='cover'
 							/>
@@ -22,7 +30,7 @@ function PostsList({ posts, onComment, onLocation, page, navigation }) {
 						<View style={styles.postDetail}>
 							<View style={styles.postDetailFeedback}>
 								<TouchableOpacity
-									onPress={() => onComment(photo, navigation)}
+									onPress={() => onComment(photoURL, navigation)}
 									style={styles.postDetailItem}
 								>
 									{page ? <CommentsIcon /> : <CommentEmptyIcon />}

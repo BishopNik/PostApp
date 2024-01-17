@@ -29,10 +29,6 @@ const styles = StyleSheet.create({
 	avatarContainer: {
 		position: 'absolute',
 		top: 0,
-		left: '50%',
-		transform: [{ translateX: -45 }, { translateY: -60 }],
-		width: 120,
-		height: 120,
 		backgroundColor: '#F6F6F6',
 		borderRadius: 16,
 	},
@@ -43,6 +39,12 @@ const styles = StyleSheet.create({
 		right: 0,
 		bottom: 13,
 		transform: [{ translateX: 12.5 }],
+	},
+	avatar: {
+		flex: 1,
+		width: '100%',
+		height: '100%',
+		borderRadius: 16,
 	},
 	title: {
 		...commonTextStyle,
@@ -277,6 +279,7 @@ const styles = StyleSheet.create({
 		marginRight: 'auto',
 	},
 	avatarImg: {
+		backgroundColor: '#F1F1F1',
 		width: 60,
 		height: 60,
 		borderRadius: 16,

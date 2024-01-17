@@ -35,7 +35,7 @@ export default function Home() {
 					component={CreatePost}
 					options={{
 						tabBarIcon: ({ color, size, focused }) => (
-							<NewIcon color={focused ? '#FF6C00' : '#fef2e4'} />
+							<NewIcon color={focused ? '#FF6C00' : '#fff'} />
 						),
 						headerShown: false,
 						tabBarVisible: false,

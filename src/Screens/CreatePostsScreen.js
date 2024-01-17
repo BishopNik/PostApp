@@ -14,13 +14,25 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Camera } from 'expo-camera';
-import * as MediaLibrary from 'expo-media-library';
+// import * as MediaLibrary from 'expo-media-library';
+import { addDoc, collection } from 'firebase/firestore';
+import { db, auth } from '../../config';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectUser } from '../redux/auth/selectors';
+import { addPost } from '../redux/posts/fetchApi';
+import { statusLoadingState, statusError } from '../redux/posts/selectors';
 import { styles } from '../Style';
 import { BackIcon, CameraIcon, DeleteIcon, LocationIcon } from '../Icons';
 import { eventEmitter } from '../Utils/events';
+import { toastWindow } from '../Utils/toastWindow';
+import uploadImageAsync from '../Utils/downloadImg';
 
 export default function CreatePost({ route: { params } }) {
 	const navigation = useNavigation();
+	const dispatch = useDispatch();
+	const user = useSelector(selectUser);
+	const isLoading = useSelector(statusLoadingState);
+	const status = useSelector(statusError);
 
 	const [name, setName] = useState('');
 	const [location, setLocation] = useState(null);
@@ -35,7 +47,7 @@ export default function CreatePost({ route: { params } }) {
 	useEffect(() => {
 		(async () => {
 			const { status } = await Camera.requestCameraPermissionsAsync();
-			await MediaLibrary.requestPermissionsAsync();
+			// await MediaLibrary.requestPermissionsAsync();
 
 			setHasPermission(status === 'granted');
 		})();
@@ -48,8 +60,18 @@ export default function CreatePost({ route: { params } }) {
 		);
 
 		// Отписываемся от события при размонтировании компонента
-		return () => subscription.remove();
+		return () => {
+			if (subscription && typeof subscription?.remove === 'function') {
+				subscription.remove();
+			}
+		};
 	}, []);
+
+	useEffect(() => {
+		if (isLoading) {
+			console.log(isLoading);
+		}
+	}, [isLoading]);
 
 	const setLocationData = location => {
 		setLocation(location);
@@ -83,6 +105,12 @@ export default function CreatePost({ route: { params } }) {
 		setLocationValue(null);
 		setIsFocusedName(false);
 		setIsFocusedLocation(false);
+	};
+
+	const createPost = async () => {
+		dispatch(addPost({ user, photo, name, location }));
+		navigation.navigate('Posts');
+		if (!status) reset();
 	};
 
 	return (
@@ -227,9 +255,8 @@ export default function CreatePost({ route: { params } }) {
 										location.latitude &&
 										location.longitude
 									) {
-										eventEmitter.emit('newPost', { photo, name, location });
-										navigation.navigate('Posts');
-										reset();
+										createPost();
+										// eventEmitter.emit('newPost', { photo, name, location });
 									}
 								}}
 							>

@@ -7,7 +7,7 @@ import Img3 from '../img/Img3.jpg';
 export default postsExample = [
 	{
 		id: '1',
-		photo: Img1,
+		photoURL: Img1,
 		title: 'Forest',
 		comment: 8,
 		like: 153,
@@ -17,7 +17,7 @@ export default postsExample = [
 	},
 	{
 		id: '2',
-		photo: Img2,
+		photoURL: Img2,
 		title: 'Sunset on the Black Sea',
 		comment: 3,
 		like: 200,
@@ -27,7 +27,7 @@ export default postsExample = [
 	},
 	{
 		id: '3',
-		photo: Img3,
+		photoURL: Img3,
 		title: 'An old house in Venice',
 		comment: 50,
 		like: 200,

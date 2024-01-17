@@ -33,12 +33,12 @@ export default function CommentsScreen({ route }) {
 
 			<ScrollView style={styles.commentList}>
 				<View style={styles.photoContainer}>
-					<Image source={img} style={styles.img} />
+					<Image source={{ uri: img }} style={styles.img} />
 				</View>
 				<View style={{ gap: 24 }}>
 					<View style={styles.userComment}>
 						<View style={styles.userIcon}>
-							<Image source={user2} style={styles.img} />
+							<Image source={user2} />
 						</View>
 						<View style={styles.userCommentTextBox}>
 							<Text style={styles.userCommentText}>
@@ -50,7 +50,7 @@ export default function CommentsScreen({ route }) {
 					</View>
 					<View style={{ ...styles.userComment, ...styles.userCommentMirror }}>
 						<View style={styles.userIcon}>
-							<Image source={user1} style={styles.img} />
+							<Image source={user1} />
 						</View>
 						<View style={styles.userCommentTextBox}>
 							<Text style={styles.userCommentText}>
@@ -64,7 +64,7 @@ export default function CommentsScreen({ route }) {
 					</View>
 					<View style={styles.userComment}>
 						<View style={styles.userIcon}>
-							<Image source={user2} style={styles.img} />
+							<Image source={user2} />
 						</View>
 						<View style={styles.userCommentTextBox}>
 							<Text style={styles.userCommentText}>

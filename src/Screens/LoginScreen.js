@@ -1,7 +1,7 @@
 /** @format */
 
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import {
 	Text,
@@ -13,17 +13,31 @@ import {
 	TouchableOpacity,
 	TouchableWithoutFeedback,
 } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 import { styles } from '../Style';
 import LogoImage from '../img/background.jpg';
+import { toastWindow } from '../Utils/toastWindow';
+import { logIn } from '../redux/auth/operations';
+import { selectIsLoggedIn } from '../redux/auth/selectors';
 
-function RegistrationScreen() {
+function LoginScreen() {
 	const navigation = useNavigation();
+	const dispatch = useDispatch();
+	const isLoggedIn = useSelector(selectIsLoggedIn);
 
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [showPassword, setShowPassword] = useState(false);
 	const [isFocusedEmail, setIsFocusedEmail] = useState(false);
 	const [isFocusedPassword, setIsFocusedPassword] = useState(false);
+
+	useEffect(() => {
+		if (isLoggedIn) {
+			navigation.navigate('Home');
+		} else {
+			navigation.navigate('Login');
+		}
+	}, [isLoggedIn]);
 
 	const handleFocus = id => {
 		switch (id) {
@@ -44,6 +58,15 @@ function RegistrationScreen() {
 
 	const toggleShowPassword = () => {
 		setShowPassword(!showPassword);
+	};
+
+	const loginDB = async (email, password) => {
+		if (!email || !password) {
+			toastWindow('Please fill in the fields ...');
+			return;
+		}
+
+		dispatch(logIn({ email, password }));
 	};
 
 	return (
@@ -85,7 +108,7 @@ function RegistrationScreen() {
 						<View style={styles.buttonBox}>
 							<TouchableOpacity
 								style={styles.button}
-								onPress={() => navigation.navigate('Home')}
+								onPress={() => loginDB(email, password)}
 							>
 								<Text style={styles.buttonText}>Login</Text>
 							</TouchableOpacity>
@@ -107,4 +130,4 @@ function RegistrationScreen() {
 	);
 }
 
-export default RegistrationScreen;
+export default LoginScreen;
