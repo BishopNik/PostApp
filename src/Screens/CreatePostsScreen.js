@@ -15,24 +15,19 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Camera } from 'expo-camera';
 // import * as MediaLibrary from 'expo-media-library';
-import { addDoc, collection } from 'firebase/firestore';
-import { db, auth } from '../../config';
-import { useSelector, useDispatch } from 'react-redux';
-import { selectUser } from '../redux/auth/selectors';
+import { useDispatch } from 'react-redux';
+import { useAuth, usePosts } from '../hooks';
 import { addPost } from '../redux/posts/fetchApi';
-import { statusLoadingState, statusError } from '../redux/posts/selectors';
+import Spinner from 'react-native-loading-spinner-overlay';
 import { styles } from '../Style';
 import { BackIcon, CameraIcon, DeleteIcon, LocationIcon } from '../Icons';
 import { eventEmitter } from '../Utils/events';
-import { toastWindow } from '../Utils/toastWindow';
-import uploadImageAsync from '../Utils/downloadImg';
 
 export default function CreatePost({ route: { params } }) {
 	const navigation = useNavigation();
 	const dispatch = useDispatch();
-	const user = useSelector(selectUser);
-	const isLoading = useSelector(statusLoadingState);
-	const status = useSelector(statusError);
+	const { user } = useAuth();
+	const { isLoadingPosts } = usePosts();
 
 	const [name, setName] = useState('');
 	const [location, setLocation] = useState(null);
@@ -67,12 +62,6 @@ export default function CreatePost({ route: { params } }) {
 		};
 	}, []);
 
-	useEffect(() => {
-		if (isLoading) {
-			console.log(isLoading);
-		}
-	}, [isLoading]);
-
 	const setLocationData = location => {
 		setLocation(location);
 		if (location) {
@@ -84,13 +73,13 @@ export default function CreatePost({ route: { params } }) {
 	const handleFocus = id => {
 		switch (id) {
 			case 'name':
-				setIsFocusedName(true);
-				setIsFocusedLocation(false);
+				if (!isFocusedName) setIsFocusedName(true);
+				if (!isFocusedName) setIsFocusedLocation(false);
 				break;
 
 			case 'location':
-				setIsFocusedName(false);
-				setIsFocusedLocation(true);
+				if (!isFocusedLocation) setIsFocusedName(false);
+				if (!isFocusedLocation) setIsFocusedLocation(true);
 				break;
 
 			default:
@@ -110,7 +99,7 @@ export default function CreatePost({ route: { params } }) {
 	const createPost = async () => {
 		dispatch(addPost({ user, photo, name, location }));
 		navigation.navigate('Posts');
-		if (!status) reset();
+		reset();
 	};
 
 	return (
@@ -173,7 +162,9 @@ export default function CreatePost({ route: { params } }) {
 											onPress={async () => {
 												if (cameraRef) {
 													const { uri } =
-														await cameraRef.takePictureAsync();
+														await cameraRef.takePictureAsync({
+															quality: 0.15,
+														});
 													setPhoto(uri);
 												}
 											}}
@@ -282,6 +273,11 @@ export default function CreatePost({ route: { params } }) {
 							</TouchableOpacity>
 						</View>
 					</View>
+					<Spinner
+						visible={isLoadingPosts}
+						textContent={'Downloading...'}
+						textStyle={{ color: '#FFF' }}
+					/>
 				</SafeAreaView>
 			</KeyboardAvoidingView>
 		</TouchableWithoutFeedback>

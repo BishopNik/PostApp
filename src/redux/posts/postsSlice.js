@@ -38,10 +38,9 @@ export const postsSlice = createSlice({
 				state.error = null;
 			})
 			.addCase(addPost.fulfilled, (state, { payload }) => {
-				console.log(payload);
 				state.isLoading = false;
 				state.error = null;
-				state.items = posts => [payload, ...posts];
+				state.items = [payload, ...state.items];
 			})
 			.addCase(addPost.rejected, (state, { error }) => {
 				state.isLoading = false;

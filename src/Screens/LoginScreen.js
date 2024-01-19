@@ -13,17 +13,17 @@ import {
 	TouchableOpacity,
 	TouchableWithoutFeedback,
 } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useAuth } from '../hooks';
 import { styles } from '../Style';
 import LogoImage from '../img/background.jpg';
 import { toastWindow } from '../Utils/toastWindow';
 import { logIn } from '../redux/auth/operations';
-import { selectIsLoggedIn } from '../redux/auth/selectors';
 
 function LoginScreen() {
 	const navigation = useNavigation();
 	const dispatch = useDispatch();
-	const isLoggedIn = useSelector(selectIsLoggedIn);
+	const { isLoggedIn } = useAuth();
 
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -34,8 +34,6 @@ function LoginScreen() {
 	useEffect(() => {
 		if (isLoggedIn) {
 			navigation.navigate('Home');
-		} else {
-			navigation.navigate('Login');
 		}
 	}, [isLoggedIn]);
 
@@ -61,7 +59,7 @@ function LoginScreen() {
 	};
 
 	const loginDB = async (email, password) => {
-		if (!email || !password) {
+		if (!email.trim() || !password.trim()) {
 			toastWindow('Please fill in the fields ...');
 			return;
 		}

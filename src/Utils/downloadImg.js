@@ -20,7 +20,7 @@ const uploadImageAsync = async (uri, userId, folder) => {
 		});
 
 		// Определение пути в хранилище Firebase
-		const storageRef = ref(storage, `${folder}/${userId}/photo.jpg`);
+		const storageRef = ref(storage, `${folder}/${userId}_${Date.now()}/photo.jpg`);
 
 		// // Загрузка блоба в Firebase Storage
 		const snapshot = await uploadBytes(storageRef, blob);

@@ -1,39 +1,31 @@
 /** @format */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Text, View, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useAuth, usePosts } from '../hooks';
 // import { auth, db } from '../../config';
 import { styles } from '../Style';
 import { LogoutIcon } from '../Icons';
-import PostsList, { useAppContext } from '../Components';
+import PostsList /*, { useAppContext } */ from '../Components';
 import Avatar from '../img/Avatar.jpg';
 import { viewComments, viewLocation } from '../Utils/helpersFunc';
-import { postsState } from '../redux/posts/selectors';
-import { selectUser } from '../redux/auth/selectors';
 import { fetchAllPosts } from '../redux/posts/fetchApi';
 import { logOut } from '../redux/auth/operations';
-import { selectIsLoggedIn } from '../redux/auth/selectors';
+import Spinner from 'react-native-loading-spinner-overlay';
 // import { eventEmitter } from '../Utils/events';
 
 function PostsScreen() {
 	const navigation = useNavigation();
 	const dispatch = useDispatch();
-	const posts = useSelector(postsState);
-	const user = useSelector(selectUser);
-	const isLoggedIn = useSelector(selectIsLoggedIn);
+	const { posts, isLoadingPosts } = usePosts();
+	const { user } = useAuth();
 
 	useEffect(() => {
 		dispatch(fetchAllPosts());
 	}, [dispatch]);
-
-	useEffect(() => {
-		if (!isLoggedIn) {
-			navigation.navigate('Login');
-		}
-	}, [isLoggedIn]);
 
 	// const { posts, setPosts } = useAppContext();
 
@@ -75,6 +67,11 @@ function PostsScreen() {
 
 	return (
 		<SafeAreaView style={styles.rootContainer}>
+			<Spinner
+				visible={isLoadingPosts}
+				textContent={'Downloading...'}
+				textStyle={{ color: '#FFF' }}
+			/>
 			<View style={styles.mainTitle}>
 				<View>
 					<Text style={styles.mainText}>Posts</Text>
@@ -83,6 +80,7 @@ function PostsScreen() {
 					<TouchableOpacity
 						onPress={() => {
 							dispatch(logOut());
+							navigation.navigate('Login');
 						}}
 					>
 						<Text style={styles.mainText}>

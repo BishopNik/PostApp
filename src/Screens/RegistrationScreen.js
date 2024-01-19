@@ -16,16 +16,18 @@ import {
 } from 'react-native';
 import { Camera } from 'expo-camera';
 // import * as MediaLibrary from 'expo-media-library';
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { addDoc, collection } from 'firebase/firestore';
-import { auth, db } from '../../config';
+import { useDispatch } from 'react-redux';
+import { useAuth } from '../hooks';
 import { styles } from '../Style';
 import LogoImage from '../img/background.jpg';
 import { AddIcon, ClearIcon } from '../Icons';
 import { toastWindow } from '../Utils/toastWindow';
-import uploadImageAsync from '../Utils/downloadImg';
+import { register } from '../redux/auth/operations';
 
 function RegistrationScreen({ navigation }) {
+	const dispatch = useDispatch();
+	const { isLoggedIn } = useAuth();
+
 	const [login, setLogin] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -45,6 +47,12 @@ function RegistrationScreen({ navigation }) {
 			setHasPermission(status === 'granted');
 		})();
 	}, []);
+
+	useEffect(() => {
+		if (isLoggedIn) {
+			navigation.navigate('Home');
+		}
+	}, [isLoggedIn]);
 
 	const handleFocus = id => {
 		switch (id) {
@@ -76,36 +84,11 @@ function RegistrationScreen({ navigation }) {
 	};
 
 	const registerDB = async (email, password, login, photo) => {
-		if (!email || !password || !login) {
+		if (!email.trim() || !password.trim() || !login.trim()) {
 			toastWindow('Please fill in the fields ...');
 			return;
 		}
-		try {
-			// Регистрация пользователя
-			const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-
-			// Получение идентификатора пользователя
-			const userId = userCredential.user.uid;
-
-			// Получение URL загруженного файла
-			const downloadURL = photo ? await uploadImageAsync(photo, userId, 'user-profile') : '';
-
-			await updateProfile(userCredential.user, {
-				displayName: login,
-				photoURL: downloadURL,
-			});
-
-			await addDoc(collection(db, 'users'), {
-				id: userId,
-				name: login,
-				photoURL: downloadURL,
-			});
-
-			navigation.navigate('Home');
-		} catch (error) {
-			console.error(error);
-			toastWindow('Error create account...');
-		}
+		dispatch(register({ email, password, login, photo }));
 	};
 
 	const makeAvatar = () => {
@@ -149,7 +132,9 @@ function RegistrationScreen({ navigation }) {
 												onPress={async () => {
 													if (cameraRef) {
 														const { uri } =
-															await cameraRef.takePictureAsync();
+															await cameraRef.takePictureAsync({
+																quality: 0.1,
+															});
 														setPhoto(uri);
 														setActiveCamera(false);
 													}

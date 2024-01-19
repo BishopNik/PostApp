@@ -5,7 +5,7 @@ import { addDoc, getDocs, collection } from 'firebase/firestore';
 import { db } from '../../../config';
 import uploadImageAsync from '../../Utils/downloadImg';
 
-export const fetchAllPosts = createAsyncThunk('tasks/fetchAll', async (_, thunkAPI) => {
+export const fetchAllPosts = createAsyncThunk('tasks/fetchAllPosts', async (_, thunkAPI) => {
 	try {
 		const snapshot = await getDocs(collection(db, 'posts'));
 		const posts = [];
@@ -40,9 +40,9 @@ export const addPost = createAsyncThunk(
 				locationLongitude: location.longitude,
 			};
 
-			await addDoc(collection(db, 'posts'), post);
+			const docRef = await addDoc(collection(db, 'posts'), post);
 
-			return post;
+			return { id: docRef.id, ...post };
 		} catch (error) {
 			return thunkAPI.rejectWithValue(error.message);
 		}

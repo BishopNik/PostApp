@@ -14,6 +14,7 @@ function PostsList({ posts, onComment, onLocation, page, navigation }) {
 					photoURL,
 					title,
 					comment,
+					like,
 					location,
 					locationLatitude,
 					locationLongitude,
@@ -30,7 +31,7 @@ function PostsList({ posts, onComment, onLocation, page, navigation }) {
 						<View style={styles.postDetail}>
 							<View style={styles.postDetailFeedback}>
 								<TouchableOpacity
-									onPress={() => onComment(photoURL, navigation)}
+									onPress={() => onComment(photoURL, id, navigation)}
 									style={styles.postDetailItem}
 								>
 									{page ? <CommentsIcon /> : <CommentEmptyIcon />}
@@ -39,7 +40,7 @@ function PostsList({ posts, onComment, onLocation, page, navigation }) {
 								{page && (
 									<TouchableOpacity style={styles.postDetailItem}>
 										<LikeIcon />
-										<Text style={styles.linkText}>153</Text>
+										<Text style={styles.linkText}>{like}</Text>
 									</TouchableOpacity>
 								)}
 							</View>

@@ -1,18 +1,16 @@
 /** @format */
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Text, View, ScrollView, TouchableOpacity, ImageBackground, Image } from 'react-native';
 // import { getDocs, collection } from 'firebase/firestore';
-import { useSelector, useDispatch } from 'react-redux';
-import { postsSelfState } from '../redux/posts/selectors';
-import { selectUser } from '../redux/auth/selectors';
-import { selectIsLoggedIn } from '../redux/auth/selectors';
+import { useDispatch } from 'react-redux';
+import { useAuth, usePosts } from '../hooks';
 import { logOut } from '../redux/auth/operations';
 // import { auth, db } from '../../config';
 import { styles } from '../Style';
 import { LogoutIcon } from '../Icons';
-import PostsList, { useAppContext } from '../Components';
+import PostsList /*, {  useAppContext  }*/ from '../Components';
 import LogoImage from '../img/background.jpg';
 import Avatar from '../img/Avatar.jpg';
 import { viewComments, viewLocation } from '../Utils/helpersFunc';
@@ -20,15 +18,8 @@ import { viewComments, viewLocation } from '../Utils/helpersFunc';
 export default function ProfileScreen() {
 	const navigation = useNavigation();
 	const dispatch = useDispatch();
-	const posts = useSelector(postsSelfState);
-	const user = useSelector(selectUser);
-	const isLoggedIn = useSelector(selectIsLoggedIn);
-
-	useEffect(() => {
-		if (!isLoggedIn) {
-			navigation.navigate('Login');
-		}
-	}, [isLoggedIn]);
+	const { user } = useAuth();
+	const { postsSelf: posts } = usePosts();
 
 	// const { posts } = useAppContext();
 
@@ -70,6 +61,7 @@ export default function ProfileScreen() {
 							<TouchableOpacity
 								onPress={() => {
 									dispatch(logOut());
+									navigation.navigate('Login');
 								}}
 							>
 								<Text style={styles.mainText}>
@@ -78,12 +70,14 @@ export default function ProfileScreen() {
 							</TouchableOpacity>
 						</View>
 						<Text style={styles.nameUser}>{user?.displayName}</Text>
-						<PostsList
-							posts={posts}
-							onComment={viewComments}
-							onLocation={viewLocation}
-							navigation={navigation}
-						/>
+						{posts && (
+							<PostsList
+								posts={posts}
+								onComment={viewComments}
+								onLocation={viewLocation}
+								navigation={navigation}
+							/>
+						)}
 					</View>
 				</ScrollView>
 			</ImageBackground>

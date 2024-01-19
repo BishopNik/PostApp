@@ -411,6 +411,8 @@ const styles = StyleSheet.create({
 	userIcon: {
 		width: 28,
 		height: 28,
+		backgroundColor: '#979797',
+		borderRadius: '50%',
 	},
 	timeComment: {
 		color: '#BDBDBD',

@@ -1,20 +1,52 @@
 /** @format */
 
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Text, View, ScrollView, TouchableOpacity, Image, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BackIcon, SendCommentIcon } from '../Icons';
 import { styles } from '../Style';
-import user1 from '../img/user1.jpg';
-import user2 from '../img/user2.jpg';
+import { useDispatch } from 'react-redux';
+import { useComments, useAuth } from '../hooks';
+import { addComment, fetchAllComments } from '../redux/comments/fetchApi';
+import Spinner from 'react-native-loading-spinner-overlay';
+import CommentsList from '../Components/CommentsList';
+import { toastWindow } from '../Utils/toastWindow';
+import { resetError, resetState } from '../redux/comments/commentsSlice';
 
 export default function CommentsScreen({ route }) {
 	const img = route.params?.img ? route.params.img : null;
+	const idPost = route.params?.id ? route.params.id : null;
 	const navigation = useNavigation();
-
+	const dispatch = useDispatch();
+	const { comments, isLoadingComments, statusComments } = useComments();
+	const { user } = useAuth();
 	const [comment, setComment] = useState('');
+
+	useEffect(() => {
+		dispatch(fetchAllComments({ idPost }));
+	}, [dispatch]);
+
+	useEffect(() => {
+		if (statusComments) {
+			toastWindow(`${statusComments}`);
+		}
+	}, [statusComments]);
+
+	const addCommentInState = e => {
+		setComment(e);
+	};
+
+	const addCommentInBase = () => {
+		if (!comment.trim()) {
+			toastWindow('Please write comment ...');
+			return;
+		}
+
+		dispatch(addComment({ user, idPost, comment }));
+		setComment('');
+	};
 
 	return (
 		<SafeAreaView style={styles.rootContainer}>
@@ -23,7 +55,13 @@ export default function CommentsScreen({ route }) {
 					<Text style={styles.mainText}>Comments</Text>
 				</View>
 				<View style={styles.backButton}>
-					<TouchableOpacity onPress={() => navigation.goBack()}>
+					<TouchableOpacity
+						onPress={() => {
+							navigation.goBack();
+							dispatch(resetState());
+							dispatch(resetError());
+						}}
+					>
 						<View style={styles.mainText}>
 							<BackIcon />
 						</View>
@@ -32,57 +70,24 @@ export default function CommentsScreen({ route }) {
 			</View>
 
 			<ScrollView style={styles.commentList}>
+				<Spinner
+					visible={isLoadingComments}
+					textContent={'Public...'}
+					textStyle={{ color: '#FFF' }}
+				/>
 				<View style={styles.photoContainer}>
 					<Image source={{ uri: img }} style={styles.img} />
 				</View>
-				<View style={{ gap: 24 }}>
-					<View style={styles.userComment}>
-						<View style={styles.userIcon}>
-							<Image source={user2} />
-						</View>
-						<View style={styles.userCommentTextBox}>
-							<Text style={styles.userCommentText}>
-								Really love your most recent photo. I’ve been trying to capture the
-								same thing for a few months and would love some tips!
-							</Text>
-							<Text style={styles.timeComment}>09 червня, 2020 | 08:40</Text>
-						</View>
-					</View>
-					<View style={{ ...styles.userComment, ...styles.userCommentMirror }}>
-						<View style={styles.userIcon}>
-							<Image source={user1} />
-						</View>
-						<View style={styles.userCommentTextBox}>
-							<Text style={styles.userCommentText}>
-								A fast 50mm like f1.8 would help with the bokeh. I’ve been using
-								primes as they tend to get a bit sharper images.
-							</Text>
-							<Text style={{ ...styles.timeComment, ...styles.timeCommentMirror }}>
-								09 червня, 2020 | 09:14
-							</Text>
-						</View>
-					</View>
-					<View style={styles.userComment}>
-						<View style={styles.userIcon}>
-							<Image source={user2} />
-						</View>
-						<View style={styles.userCommentTextBox}>
-							<Text style={styles.userCommentText}>
-								Thank you! That was very helpful!
-							</Text>
-							<Text style={styles.timeComment}>09 червня, 2020 | 09:20</Text>
-						</View>
-					</View>
-				</View>
+				{comments && <CommentsList comments={comments} />}
 			</ScrollView>
 			<View style={styles.inputCommentContainer}>
 				<TextInput
 					value={comment}
-					onChangeText={setComment}
+					onChangeText={addCommentInState}
 					placeholder='Comment'
 					style={[styles.inputComment]}
 				/>
-				<TouchableOpacity style={styles.sendComment}>
+				<TouchableOpacity style={styles.sendComment} onPress={() => addCommentInBase()}>
 					<SendCommentIcon color='#FF6C00' />
 				</TouchableOpacity>
 			</View>

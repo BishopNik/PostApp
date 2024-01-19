@@ -12,8 +12,5 @@ export const statusError = state => state.posts.error;
 export const postsSelfState = createSelector([postsState, selectUser], (posts, user) => {
 	if (posts.length === 0) return [];
 
-	const selfPosts = posts.filter(post => post.userId === user.id);
-	const mappedPosts = selfPosts.map(post => ({ id: post.id, ...post }));
-	const reversedPosts = [...mappedPosts].reverse();
-	return reversedPosts;
+	return posts.filter(post => post.userId === user.id);
 });
