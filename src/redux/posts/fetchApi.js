@@ -35,6 +35,7 @@ export const addPost = createAsyncThunk(
 				title: name,
 				comment: 0,
 				like: 0,
+				likeUsers: [],
 				location: location.city + ', ' + location.country,
 				locationLatitude: location.latitude,
 				locationLongitude: location.longitude,

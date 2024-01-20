@@ -2,7 +2,7 @@
 
 import { createSlice } from '@reduxjs/toolkit';
 
-import { fetchAllComments, addComment } from './fetchApi';
+import { fetchAllComments, addComment, addLike } from './fetchApi';
 
 const initialState = {
 	items: [],
@@ -48,6 +48,14 @@ export const commentsSlice = createSlice({
 			.addCase(addComment.rejected, (state, _) => {
 				state.isLoading = false;
 				state.error = 'Error created comment...';
+			})
+			.addCase(addLike.fulfilled, (state, _) => {
+				state.isLoading = false;
+				state.error = null;
+			})
+			.addCase(addLike.rejected, (state, _) => {
+				state.isLoading = false;
+				state.error = 'Error liked...';
 			});
 	},
 });

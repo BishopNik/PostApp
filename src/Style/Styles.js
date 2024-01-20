@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
 	input: {
 		...commonTextStyle,
 		width: '100%',
-		height: 50,
+		minHeight: 50,
 		backgroundColor: '#F6F6F6',
 		borderColor: '#E8E8E8',
 		borderWidth: 1,
@@ -134,6 +134,7 @@ const styles = StyleSheet.create({
 	inputCommentContainer: {
 		paddingLeft: 16,
 		paddingRight: 16,
+		marginBottom: 10,
 	},
 	inputComment: {
 		...commonTextStyle,

@@ -9,11 +9,14 @@ import { formatTimestamp } from '../Utils/timestamp';
 function CommentsList({ comments }) {
 	const { user } = useAuth();
 
+	if (comments.length === 0) {
+		return null;
+	}
 	const sortedComments = comments.slice().sort((a, b) => a.data - b.data);
 
 	return (
 		<View style={{ gap: 24 }}>
-			{sortedComments.map(({ id, userId, userlLogo, text, data }) => (
+			{sortedComments.map(({ id, userId, userlLogo, text, data = 0 }) => (
 				<View
 					key={id}
 					style={{

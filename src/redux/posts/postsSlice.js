@@ -17,6 +17,26 @@ export const postsSlice = createSlice({
 		resetError: state => {
 			state.error = null;
 		},
+		addCommentInState: (state, { payload }) => {
+			state.items = state.items.map(post => {
+				if (post.id == payload.idPost) {
+					return { ...post, comment: post.comment + 1 };
+				}
+				return post;
+			});
+		},
+		addLikeInState: (state, { payload }) => {
+			state.items = state.items.map(post => {
+				if (post.id == payload.idPost && !post.likeUsers.includes(payload.userId)) {
+					return {
+						...post,
+						like: post.like + 1,
+						likeUsers: [...post.likeUsers, payload.userId],
+					};
+				}
+				return post;
+			});
+		},
 	},
 	extraReducers: builder => {
 		builder
@@ -51,4 +71,4 @@ export const postsSlice = createSlice({
 
 export const postsReducer = postsSlice.reducer;
 
-export const { resetError } = postsSlice.actions;
+export const { resetError, addCommentInState, addLikeInState } = postsSlice.actions;

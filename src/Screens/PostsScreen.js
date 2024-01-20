@@ -13,6 +13,7 @@ import PostsList /*, { useAppContext } */ from '../Components';
 import Avatar from '../img/Avatar.jpg';
 import { viewComments, viewLocation } from '../Utils/helpersFunc';
 import { fetchAllPosts } from '../redux/posts/fetchApi';
+import { addLike } from '../redux/comments/fetchApi';
 import { logOut } from '../redux/auth/operations';
 import Spinner from 'react-native-loading-spinner-overlay';
 // import { eventEmitter } from '../Utils/events';
@@ -21,11 +22,19 @@ function PostsScreen() {
 	const navigation = useNavigation();
 	const dispatch = useDispatch();
 	const { posts, isLoadingPosts } = usePosts();
-	const { user } = useAuth();
+	const { user, token } = useAuth();
 
 	useEffect(() => {
 		dispatch(fetchAllPosts());
 	}, [dispatch]);
+
+	useEffect(() => {
+		if (!token) navigation.navigate('Login');
+	}, [dispatch]);
+
+	const onAddLike = id => {
+		dispatch(addLike({ user, id }));
+	};
 
 	// const { posts, setPosts } = useAppContext();
 
@@ -104,6 +113,7 @@ function PostsScreen() {
 					<PostsList
 						posts={posts}
 						onComment={viewComments}
+						onLike={onAddLike}
 						onLocation={viewLocation}
 						navigation={navigation}
 						page={'Posts'}
