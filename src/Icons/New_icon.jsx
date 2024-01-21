@@ -14,7 +14,7 @@ const NewIcon = ({ width = 70, height = 40, color = '#FF6C00' }) => {
 					rx={20}
 					fill={color}
 					stroke={color === '#fff' ? '#000' : 'transparent'}
-					strokeWidth={color === '#fff' ? 1 : 0}
+					strokeWidth={color === '#fff' ? 0.1 : 0}
 				/>
 				<Path
 					id='Union'

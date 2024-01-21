@@ -1,7 +1,7 @@
 /** @format */
 
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import {
 	Text,
@@ -66,59 +66,54 @@ export default function CommentsScreen({ route }) {
 	};
 
 	return (
-		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-			<SafeAreaView style={styles.rootContainer}>
-				<View style={styles.mainTitle}>
-					<View>
-						<Text style={styles.mainText}>Comments</Text>
-					</View>
-					<View style={styles.backButton}>
-						<TouchableOpacity
-							onPress={() => {
-								navigation.goBack();
-								dispatch(resetState());
-								dispatch(resetError());
-							}}
-						>
-							<View style={styles.mainText}>
-								<BackIcon />
-							</View>
-						</TouchableOpacity>
-					</View>
+		<SafeAreaView style={styles.rootContainer}>
+			<View style={styles.mainTitle}>
+				<View>
+					<Text style={styles.mainText}>Comments</Text>
 				</View>
+				<View style={styles.backButton}>
+					<TouchableOpacity
+						onPress={() => {
+							navigation.goBack();
+							dispatch(resetState());
+							dispatch(resetError());
+						}}
+					>
+						<View style={styles.mainText}>
+							<BackIcon />
+						</View>
+					</TouchableOpacity>
+				</View>
+			</View>
 
-				<ScrollView style={styles.commentList}>
-					<Spinner
-						visible={isLoadingComments}
-						textContent={'Public...'}
-						textStyle={{ color: '#FFF' }}
+			<View style={styles.commentList}>
+				<Spinner
+					visible={isLoadingComments}
+					textContent={'Public...'}
+					textStyle={{ color: '#FFF' }}
+				/>
+				<View style={styles.photoContainer}>
+					<Image source={{ uri: img }} style={styles.img} />
+				</View>
+				{comments && <CommentsList comments={comments} />}
+			</View>
+			<KeyboardAvoidingView
+				behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+				style={{ paddingTop: 5 }}
+			>
+				<View style={styles.inputCommentContainer}>
+					<TextInput
+						value={comment}
+						onChangeText={addCommentInState}
+						placeholder='Comment'
+						style={styles.inputComment}
 					/>
-					<View style={styles.photoContainer}>
-						<Image source={{ uri: img }} style={styles.img} />
-					</View>
-					{comments && <CommentsList comments={comments} />}
-				</ScrollView>
-				<KeyboardAvoidingView
-					behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-					style={{ ...styles.form, paddingTop: 5 }}
-				>
-					<View style={styles.inputCommentContainer}>
-						<TextInput
-							value={comment}
-							onChangeText={addCommentInState}
-							placeholder='Comment'
-							style={styles.inputComment}
-						/>
-						<TouchableOpacity
-							style={styles.sendComment}
-							onPress={() => addCommentInBase()}
-						>
-							<SendCommentIcon color='#FF6C00' />
-						</TouchableOpacity>
-					</View>
-				</KeyboardAvoidingView>
-				<StatusBar style='auto' />
-			</SafeAreaView>
-		</TouchableWithoutFeedback>
+					<TouchableOpacity style={styles.sendComment} onPress={() => addCommentInBase()}>
+						<SendCommentIcon color='#FF6C00' />
+					</TouchableOpacity>
+				</View>
+			</KeyboardAvoidingView>
+			<StatusBar style='auto' />
+		</SafeAreaView>
 	);
 }

@@ -261,7 +261,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'column',
 		paddingTop: 32,
-		paddingBottom: 32,
+		paddingBottom: 2,
 		paddingLeft: 16,
 		paddingRight: 16,
 	},
